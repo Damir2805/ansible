@@ -1,0 +1,18 @@
+---
+
+- name: Add User and Set Password
+  hosts: all
+  become: yes
+  
+  
+
+  tasks:
+  - name: Add User
+    ansible.builtin.user:
+      name: test
+      state: present
+      password: "{{ '2345' | password_hash('sha512') }}"
+      system: true
+
+  - name: Force test to change password
+    shell: chage -d 0 test
